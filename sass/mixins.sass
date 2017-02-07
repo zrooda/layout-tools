@@ -70,26 +70,31 @@ $fontScale: 62.5% !default
         @else
           @warn 'Invalid value \'#{$next}\' for indent() in selector \'#{&}\'.'
 
-=grid($members: 1, $indent: 0, $dir: row)
-  @if $dir != row or $dir != column
-    @warn 'Invalid direction \'#{$dir}\' for grid() in selector \'#{&}\'.'
+=grid($members: 1, $indent: 0, $dir: row, $wrap: wrap)
   display: flex
   flex-direction: $dir
-  flex-wrap: wrap
+  flex-wrap: $wrap
   > *
     flex: 0 0 if($indent > 0, calc((#{100%} - #{($members - 1)*$indent}) / #{$members}), calc(#{100%/$members}))
-    margin: if($dir == row, $indent $indent 0 0, 0 0 $indent $indent)
-  > *:nth-child(-n+#{$members})
-    margin-#{if($dir == row, top, left)}: 0
-  > *:nth-child(#{$members}n)
-    margin-#{if($dir == row, right, bottom)}: 0
+    margin: 0
+    margin-#{if($dir == row, right, bottom)}: $indent
+    margin-#{if($dir == row, top, left)}: if($wrap == wrap, $indent, null)
+  @if $wrap == wrap
+    > *:nth-child(-n+#{$members})
+      margin-#{if($dir == row, top, left)}: 0
+    > *:nth-child(#{$members}n)
+      margin-#{if($dir == row, right, bottom)}: 0
+  @else if $wrap == nowrap
+    > *:last-child
+      margin-#{if($dir == row, right, bottom)}: 0
+  @else
+    @warn 'Invalid direction \'#{$dir}\' for grid() in selector \'#{&}\'.'
 
 // Typography
 =hide-text($old: false)
   text-indent: if($old, -9999px, 100%)
   overflow: hidden
-  @if not $old
-    white-space: nowrap
+  white-space: if($old, null, nowrap)
 
 =truncate-text($width: 100%)
   max-width: $width
