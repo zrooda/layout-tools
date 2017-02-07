@@ -1,2 +1,2 @@
-# gonzo-mixins
-Lo Mixino Perfettó du Gonzo
+`npm install gonzo-tools --save`  
+`@import node_modules/gonzo-tools/sass/mixins`
