@@ -75,7 +75,7 @@ $fontScale: 62.5% !default
   flex-direction: $dir
   flex-wrap: $wrap
   > *
-    flex: 0 0 if($indent > 0, calc((#{100%} - #{($members - 1)*$indent}) / #{$members}), calc(#{100%/$members}))
+    flex: 0 0 if($indent > 0, calc((#{100%} - #{(ceil($members) - 1)*$indent}) / #{$members}), calc(#{100%/$members}))
     margin: 0
     margin-#{if($dir == row, right, bottom)}: $indent
     margin-#{if($dir == row, top, left)}: if($wrap == wrap, $indent, null)
