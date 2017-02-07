@@ -1,0 +1,120 @@
+/*
+  gonzo-tools
+  ============================== */
+
+@import helpers
+
+// Configuration
+$fontScale: 62.5% !default
+
+// Utility
+@function em($px, $scale: $fontScale, $unit: 'em')
+  @return __toNumber($px/(.16*__stripUnit($scale)) + $unit)
+
+@function rem($px, $scale: $fontScale)
+  @return em($px, $scale, 'rem')
+
+=clearfix()
+  &:after, &:before
+    content: ''
+    display: table
+  &:after
+    clear: both
+
+=hardware-accel($props: ())
+  transform: translateZ(0)
+  will-change: if(length($props) > 0, __listToString($props, ', '), null)
+
+=scrollable($dir: x)
+  overflow-#{$dir}: auto
+  will-change: scroll-position
+  -webkit-overflow-scrolling: touch
+
+=aspect-ratio($ratio-or-width, $height: null)
+  $padding: if($height, percentage($height/$ratio-or-width), percentage(1/$ratio-or-width))
+  &:before
+    content: ''
+    float: left
+    padding-bottom: $padding
+  &:after
+    content: ''
+    display: table
+    clear: both
+
+=align($align: (), $dir: row)
+  $flexMap: (left: flex-start, right: flex-end, top: flex-start, bottom: flex-end, middle: center)
+  @if length($align) == 2
+    $x: map-get($flexMap, nth($align, 1)) or nth($align, 1)
+    $y: map-get($flexMap, nth($align, 2)) or nth($align, 2)
+    display: flex
+    flex-direction: $dir
+    justify-content: if($dir == 'row', $x, $y)
+    align-items: if($dir == 'row', $y, $x)
+  @else
+    @warn 'Invalid length of arguments \'#{length($args)}\' for grid() in selector \'#{&}\'.'
+
+=indent($args: (), $exclude: null)
+  $offsets: top right bottom left
+  $selector: ()
+  @if $exclude
+    $selector: '& > *:not(:#{$exclude})'
+  @else
+    $selector: '& > *'
+  #{$selector}
+    @each $offset in $offsets
+      $index: index($args, $offset)
+      @if $index
+        $next: nth($args, $index + 1)
+        @if type-of($next) == 'number'
+          margin-#{$offset}: $next
+        @else
+          @warn 'Invalid value \'#{$next}\' for indent() in selector \'#{&}\'.'
+
+=grid($members: 1, $indent: 0, $dir: row)
+  @if $dir != row or $dir != column
+    @warn 'Invalid direction \'#{$dir}\' for grid() in selector \'#{&}\'.'
+  display: flex
+  flex-direction: $dir
+  flex-wrap: wrap
+  > *
+    flex: 0 0 if($indent > 0, calc((#{100%} - #{($members - 1)*$indent}) / #{$members}), calc(#{100%/$members}))
+    margin: if($dir == row, $indent $indent 0 0, 0 0 $indent $indent)
+  > *:nth-child(-n+#{$members})
+    margin-#{if($dir == row, top, left)}: 0
+  > *:nth-child(#{$members}n)
+    margin-#{if($dir == row, right, bottom)}: 0
+
+// Typography
+=hide-text($old: false)
+  text-indent: if($old, -9999px, 100%)
+  overflow: hidden
+  @if not $old
+    white-space: nowrap
+
+=truncate-text($width: 100%)
+  max-width: $width
+  white-space: nowrap
+  overflow: hidden
+  text-overflow: ellipsis
+
+=unselectable()
+  user-select: none
+  -webkit-touch-callout: none
+  -webkit-tap-highlight-color: rgba(0,0,0,0)
+
+// Media
+=background-retina($src, $args: ())
+  background-image: url($src)
+  background-size: $args
+  +media('retina2x')
+    background-image: __appendToImageFilename($src, '@2x')
+  +media('retina3x')
+    background-image: __appendToImageFilename($src, '@3x')
+
+// Effects
+=transition($props: (), $duration: (), $easing: ('linear'), $delay: ('0ms'))
+  transition-property: __listToString($props, ', ')
+  transition-duration: __listToString($duration, ', ')
+  transition-timing-function: __listToString($easing, ', ')
+  transition-delay: __listToString($delay, ', ')
+  will-change: __listToString($props, ', ')
