@@ -2,24 +2,31 @@
   gonzo-tools | grid
   ============================== */
 
-=grid($members: 1, $dir: row, $indent: 0, $wrap: wrap)
+=grid($layout: (), $dir: row, $indent: 0, $wrap: wrap)
+  $isRow: $dir == row
+  $isFixed: type-of($layout) == list and length($layout) == 2
+  $layoutX: if($isFixed, nth($layout, 1), $layout)
+  $layoutY: if($isFixed, nth($layout, 2), null)
   display: flex
   flex-direction: $dir
   flex-wrap: $wrap
   align-content: flex-start
   justify-content: flex-start
   > *:nth-child(n)
-    flex: 0 0 if($indent > 0, calc((#{100%} - #{(ceil($members) - 1)*$indent}) / #{$members}), calc(#{100%/$members}))
+    flex: 0 0 if($indent > 0, calc((#{100%} - #{(ceil($layoutX) - 1)*$indent}) / #{$layoutX}), calc(#{100%/$layoutX}))
+    @if $isFixed
+      #{if($isRow, height, width)}: if($indent > 0, calc((#{100%} - #{(ceil($layoutY) - 1)*$indent}) / #{$layoutY}), calc(#{100%/$layoutY}))
     margin: 0
-    margin-#{if($dir == row, right, bottom)}: $indent
-    margin-#{if($dir == row, top, left)}: if($wrap == wrap, $indent, null)
+    margin-#{if($isRow, right, bottom)}: $indent
+    margin-#{if($isRow, top, left)}: if($wrap == wrap, $indent, null)
+    overflow: if($isFixed, auto, null)
   @if $wrap == wrap
-    > *:nth-child(-n+#{$members})
-      margin-#{if($dir == row, top, left)}: 0
-    > *:nth-child(#{$members}n)
-      margin-#{if($dir == row, right, bottom)}: 0
+    > *:nth-child(-n+#{$layoutX})
+      margin-#{if($isRow, top, left)}: 0
+    > *:nth-child(#{$layoutX}n)
+      margin-#{if($isRow, right, bottom)}: 0
   @else if $wrap == nowrap
     > *:last-child
-      margin-#{if($dir == row, right, bottom)}: 0
+      margin-#{if($isRow, right, bottom)}: 0
   @else
     @warn 'Invalid direction \'#{$dir}\' for grid() in selector \'#{&}\'.'
