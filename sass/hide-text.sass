@@ -1,0 +1,8 @@
+/*
+  gonzo-tools | hide-text
+  ============================== */
+
+=hide-text($old: false)
+  text-indent: if($old, -9999px, 100%)
+  overflow: hidden
+  white-space: if($old, null, nowrap)

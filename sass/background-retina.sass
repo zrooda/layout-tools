@@ -1,0 +1,13 @@
+/*
+  gonzo-tools | background-retina
+  ============================== */
+
+@import helpers/append-image-extension
+
+=background-retina($src, $args: ())
+  background-image: url($src)
+  background-size: $args
+  +media('retina2x')
+    background-image: __appendImageExtension($src, '@2x')
+  +media('retina3x')
+    background-image: __appendImageExtension($src, '@3x')

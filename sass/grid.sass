@@ -1,0 +1,23 @@
+/*
+  gonzo-tools | grid
+  ============================== */
+
+=grid($members: 1, $indent: 0, $dir: row, $wrap: wrap)
+  display: flex
+  flex-direction: $dir
+  flex-wrap: $wrap
+  > *:nth-child(n)
+    flex: 0 0 if($indent > 0, calc((#{100%} - #{(ceil($members) - 1)*$indent}) / #{$members}), calc(#{100%/$members}))
+    margin: 0
+    margin-#{if($dir == row, right, bottom)}: $indent
+    margin-#{if($dir == row, top, left)}: if($wrap == wrap, $indent, null)
+  @if $wrap == wrap
+    > *:nth-child(-n+#{$members})
+      margin-#{if($dir == row, top, left)}: 0
+    > *:nth-child(#{$members}n)
+      margin-#{if($dir == row, right, bottom)}: 0
+  @else if $wrap == nowrap
+    > *:last-child
+      margin-#{if($dir == row, right, bottom)}: 0
+  @else
+    @warn 'Invalid direction \'#{$dir}\' for grid() in selector \'#{&}\'.'

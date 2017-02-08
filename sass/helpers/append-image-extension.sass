@@ -1,0 +1,17 @@
+/*
+  gonzo-tools | append-image-extension
+  ============================== */
+
+@function __appendImageExtension($filename, $value)
+  $exts: '.png' '.jpg' '.jpeg' '.bmp' '.gif' '.svg'
+  $index: null
+  $extension: null
+  @each $ext in $exts
+    @if str-index($filename, $ext)
+      $index: str-index($filename, $ext)
+      $extension: $ext
+  @if $index and $extension
+    $newFilename: str-insert($filename, $value, $index)
+    @return $newFilename
+  @else
+    @error 'Appending to filename \'#{$filename}\' failed.'

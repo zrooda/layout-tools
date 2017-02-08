@@ -1,8 +1,8 @@
 {
   "name": "gonzo-tools",
   "version": "1.0.3",
-  "description": "Los Tools Perfettó du Gonzo",
-  "main": "sass/mixins.sass",
+  "description": "Mighty tools for the hands-on approach.",
+  "main": "sass/all.sass",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },

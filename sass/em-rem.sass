@@ -1,0 +1,14 @@
+/*
+  gonzo-tools | em, rem
+  ============================== */
+
+@import helpers/to-number
+@import helpers/strip-unit
+
+$fontScale: 62.5% !default
+
+@function em($px, $scale: $fontScale, $unit: 'em')
+  @return __toNumber($px/(.16*__stripUnit($scale)) + $unit)
+
+@function rem($px, $scale: $fontScale)
+  @return em($px, $scale, 'rem')
