@@ -4,7 +4,7 @@
 
 =align($align: (), $dir: row, $indent: 0)
   @if length($align) != 2
-    @warn 'Invalid length of arguments \'#{length($args)}\' for grid() in selector \'#{&}\'.'
+    @warn 'Invalid length of arguments \'#{length($args)}\' for align() in selector \'#{&}\'.'
   $flexMap: (left: flex-start, right: flex-end, top: flex-start, bottom: flex-end, middle: center)
   $x: map-get($flexMap, nth($align, 1)) or nth($align, 1)
   $y: map-get($flexMap, nth($align, 2)) or nth($align, 2)

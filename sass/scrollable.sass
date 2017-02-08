@@ -3,6 +3,6 @@
   ============================== */
 
 =scrollable($dir: x)
-  overflow-#{$dir}: auto
+  overflow#{if($dir == auto, '', $x)}: auto
   will-change: scroll-position
   -webkit-overflow-scrolling: touch
