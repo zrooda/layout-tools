@@ -12,6 +12,7 @@ truncate(80%)
 scrollable(x)
 unselectable
 aspect-ratio(16, 9)
+background-retina('img/bg.png', 250px auto)
 em(16)
 rem(24)
 
