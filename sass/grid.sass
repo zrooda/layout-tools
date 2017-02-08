@@ -1,5 +1,5 @@
 /*
-  gonzo-tools | grid
+  iddqd-tools | grid
   ============================== */
 
 =grid($layout: (), $dir: row, $indent: 0, $wrap: wrap)
@@ -12,6 +12,7 @@
   flex-wrap: $wrap
   align-content: flex-start
   justify-content: flex-start
+  overflow: if($isFixed or $wrap == wrap, auto, null)
   > *:nth-child(n)
     flex: 0 0 if($indent > 0, calc((#{100%} - #{(ceil($layoutX) - 1)*$indent}) / #{$layoutX}), calc(#{100%/$layoutX}))
     @if $isFixed

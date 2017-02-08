@@ -2,9 +2,9 @@
 
 [Demo!](http://codepen.io/salsita/full/bgxWBX/)
 
-`npm install gonzo-tools --save`
+`npm install iddqd-tools --save`
 
-`@import node_modules/gonzo-tools/sass/all`
+`@import node_modules/iddqd-tools/sass/all`
 
 ```Sass
 clearfix
