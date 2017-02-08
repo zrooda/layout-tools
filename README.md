@@ -1,9 +1,9 @@
 > Singing in the pain (of webdev)
 
-[Demo!](http://codepen.io/salsita/full/bgxWBX/)  
-  
-`npm install gonzo-tools --save`  
-  
+[Demo!](http://codepen.io/salsita/full/bgxWBX/)
+
+`npm install gonzo-tools --save`
+
 `@import node_modules/gonzo-tools/sass/all`
 
 ```Sass
@@ -14,6 +14,7 @@ scrollable(x)
 unselectable
 aspect-ratio(16, 9)
 background-retina('img/bg.png', 250px auto)
+pseudo
 em(16)
 rem(24)
 
