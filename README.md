@@ -14,6 +14,7 @@ scrollable(x)
 unselectable
 aspect-ratio(16, 9)
 background-retina('img/bg.png', 250px auto)
+abs-fill(0 0 0 50%, 100% auto, -50% 0)
 pseudo
 em(16)
 rem(24)
