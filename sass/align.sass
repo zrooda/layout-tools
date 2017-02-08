@@ -2,7 +2,7 @@
   gonzo-tools | align
   ============================== */
 
-=align($align: (), $indent: 0, $dir: row)
+=align($align: (), $dir: row, $indent: 0)
   $flexMap: (left: flex-start, right: flex-end, top: flex-start, bottom: flex-end, middle: center)
   @if length($align) == 2
     $x: map-get($flexMap, nth($align, 1)) or nth($align, 1)
