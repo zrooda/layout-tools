@@ -1,25 +1,10 @@
+> Anticipate the difficult by managing the easy. - Phu K. C'Eses
+
 [Click here for demo!](http://codepen.io/salsita/full/bgxWBX/)
 
 `npm install iddqd-tools --save`
 
 `@import node_modules/iddqd-tools/sass/all`
-
-```Sass
-clearfix
-hide-text(true)
-truncate(80%)
-scrollable(x)
-unselectable
-aspect-ratio(16, 9)
-background-retina('img/bg.png', 250px auto)
-abs-fill(0 0 0 50%, 100% auto, -50% 0)
-pseudo
-em(16)
-rem(24)
-
-align(left center, row, 10px)  // Noice!
-grid(4, column, 10px, wrap)    // N000ice!!1
-```
 
 ## align
 
@@ -39,5 +24,18 @@ grid(4, column, 10px, wrap)    // N000ice!!1
 - emulates internal padding between children
 
 ```
-+grid(<number> <<number:fixed>, row|col|column, <unit>, wrap|nowrap)
++grid(<number> <?number:fixed>, row|col|column, <unit>, wrap|nowrap)
 ```
+
+## other
+
+- [clearfix](sass/clearfix.sass)
+- [hide-text](sass/hide-text.sass)
+- [truncate](sass/truncate.sass)
+- [scrollable](sass/scrollable.sass)
+- [unselectable](sass/unselectable.sass)
+- [aspect-ratio](sass/aspect-ratio.sass)
+- [background-retina](sass/background-retina.sass)
+- [abs-fill](sass/abs-fill.sass)
+- [pseudo](sass/pseudo.sass)
+- [em, rem](sass/em-rem.sass)
