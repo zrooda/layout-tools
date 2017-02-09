@@ -1,0 +1,10 @@
+/*
+  layout-tools | str-reverse
+  ============================== */
+
+@function __strReverse($string)
+  $reverse-string: ''
+  @for $i from 1 through str-length($string)
+    $c: str-slice($string, $i, $i)
+    $reverse-string: '#{$c}#{$reverse-string}'
+  @return $reverse-string

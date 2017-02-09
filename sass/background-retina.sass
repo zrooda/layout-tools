@@ -2,12 +2,12 @@
   layout-tools | background-retina
   ============================== */
 
-@import helpers/append-image-extension
+@import helpers/append-filename
 
 =background-retina($src, $args: ())
   background-image: url($src)
   background-size: $args
   @media (-webkit-min-device-pixel-ratio: 2), (min-resolution: 192dpi), (min-resolution: 2dppx)
-    background-image: __appendImageExtension($src, '@2x')
+    background-image: __appendFilename($src, '@2x')
   @media (-webkit-min-device-pixel-ratio: 3), (min-resolution: 350dpi), (min-resolution: 3dppx)
-    background-image: __appendImageExtension($src, '@3x')
+    background-image: __appendFilename($src, '@3x')
