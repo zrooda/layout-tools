@@ -2,9 +2,9 @@
 
 [Click here for demo!](http://codepen.io/salsita/full/bgxWBX/)
 
-`npm install iddqd-tools --save`
+`npm install layout-tools --save`
 
-`@import node_modules/iddqd-tools/sass/all`
+`@import node_modules/layout-tools/sass/all`
 
 ## align
 

@@ -1,5 +1,5 @@
 {
-  "name": "iddqd-tools",
+  "name": "layout-tools",
   "version": "1.5.3",
   "description": "Mighty tools for the hands-on approach.",
   "main": "sass/all.sass",
@@ -8,12 +8,12 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/mystrdat/iddqd-tools.git"
+    "url": "git+https://github.com/mystrdat/layout-tools.git"
   },
   "author": "mystrdat",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/mystrdat/iddqd-tools/issues"
+    "url": "https://github.com/mystrdat/layout-tools/issues"
   },
-  "homepage": "https://github.com/mystrdat/iddqd-tools#readme"
+  "homepage": "https://github.com/mystrdat/layout-tools#readme"
 }
