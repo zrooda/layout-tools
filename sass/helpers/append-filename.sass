@@ -5,8 +5,7 @@
 @import str-reverse
 
 @function __appendFilename($filename, $value)
-  $reversed: __strReverse($filename)
-  $dotIndex: str-index($reversed, '.')
+  $dotIndex: str-index(__strReverse($filename), '.')
   @if $dotIndex
     @return str-insert($filename, $value, str-length($filename) - $dotIndex + 1)
   @else
