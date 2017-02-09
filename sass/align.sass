@@ -2,7 +2,7 @@
   layout-tools | align
   ============================== */
 
-=align($align: (), $dir: row, $spacing: 0)
+=align($align: (), $spacing: 0, $dir: row)
   $alignValid: type-of($align) == list and length($align) == 2 and index(left center middle right, nth($align, 1)) != null and index(top center middle bottom, nth($align, 2)) != null
   $dirValid: index(row col column, $dir) != null
   $spacingValid: type-of($spacing) == number

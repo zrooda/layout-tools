@@ -12,14 +12,14 @@
 - emulates internal padding between children
 
 ```Sass
-+align(<horizontal> <vertical>, row(default)|col|column, <unit>)
++align(<horizontal> <vertical>, <spacing>, row(default)|col|column)
 
 // horizontal: left|center|middle|right
 // vertical: top|center|middle|bottom
 
 // Example
 .container
-  +align(right center, col, 10px)
+  +align(right center, 10px, col)
 ```
 
 ## grid
@@ -29,11 +29,11 @@
 - emulates internal padding between children
 
 ```Sass
-+grid(<number> <?number:fixed>, row(default)|col|column, <unit>, wrap(default)|nowrap)
++grid(<number> <?number:fixed>, <spacing>, row(default)|col|column, wrap(default)|nowrap)
 
 // Example
 .container
-  +grid(4, row, 20px)
+  +grid(4, 20px)
 
   @media (max-width: 640px)
     +grid(1 2.5, col, 10px, nowrap)
