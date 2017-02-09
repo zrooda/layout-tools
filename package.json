@@ -1,6 +1,6 @@
 {
   "name": "layout-tools",
-  "version": "1.6.3",
+  "version": "1.6.4",
   "description": "Next-level mixins for layout composition",
   "main": "sass/all.sass",
   "scripts": {
