@@ -2,25 +2,25 @@
   layout-tools | grid
   ============================== */
 
-=grid($layout: (), $spacing: 0, $dir: row, $wrap: wrap)
-  $layoutFluidValid: type-of($layout) == number and unitless($layout)
-  $layoutFixedValid: type-of($layout) == list and length($layout) == 2 and type-of(nth($layout, 1)) == number and unitless(nth($layout, 1)) and type-of(nth($layout, 2)) == number and unitless(nth($layout, 2))
-  $layoutValid: $layoutFluidValid or $layoutFixedValid
-  $dirValid: index(row col column, $dir) != null
+=grid($grid: (), $spacing: 0, $dir: row, $wrap: wrap)
+  $gridFluidValid: type-of($grid) == number and unitless($grid)
+  $gridFixedValid: type-of($grid) == list and length($grid) == 2 and type-of(nth($grid, 1)) == number and unitless(nth($grid, 1)) and type-of(nth($grid, 2)) == number and unitless(nth($grid, 2))
+  $gridValid: $gridFluidValid or $gridFixedValid
+  @if not $gridValid
+    @error 'Invalid grid \'#{$grid}\', must be a number or a list of two numbers.'
   $spacingValid: type-of($spacing) == number
-  $wrapValid: index(wrap nowrap, $wrap) != null
-  @if not $layoutValid
-    @error 'Invalid layout \'#{$layout}\', must be a number or a list of two numbers.'
-  @if not $dirValid
-    @error 'Invalid direction \'#{$dir}\', must be row, col or column.'
   @if not $spacingValid
     @error 'Invalid spacing \'#{$spacing}\', must be a unit.'
+  $dirValid: index(row col column, $dir) != null
+  @if not $dirValid
+    @error 'Invalid direction \'#{$dir}\', must be row, col or column.'
+  $wrapValid: index(wrap nowrap, $wrap) != null
   @if not $wrapValid
     @error 'Invalid wrap \'#{$wrap}\', must be wrap or nowrap.'
   $isRow: $dir == row
-  $isFixed: type-of($layout) == list and length($layout) == 2
-  $layoutX: if($isFixed, nth($layout, 1), $layout)
-  $layoutY: if($isFixed, nth($layout, 2), null)
+  $isFixed: type-of($grid) == list and length($grid) == 2
+  $gridX: if($isFixed, nth($grid, 1), $grid)
+  $gridY: if($isFixed, nth($grid, 2), null)
   display: flex
   flex-direction: if($dir == col, column, $dir)
   flex-wrap: $wrap
@@ -28,17 +28,17 @@
   justify-content: flex-start
   overflow: if($isFixed or $wrap == nowrap, auto, null)
   > *:nth-child(n)
-    flex: 0 0 if($spacing > 0, calc((#{100%} - #{(ceil($layoutX) - 1)*$spacing}) / #{$layoutX}), calc(#{100%/$layoutX}))
+    flex: 0 0 if($spacing > 0, calc((#{100%} - #{(ceil($gridX) - 1)*$spacing}) / #{$gridX}), calc(#{100%/$gridX}))
     @if $isFixed
-      #{if($isRow, height, width)}: if($spacing > 0, calc((#{100%} - #{(ceil($layoutY) - 1)*$spacing}) / #{$layoutY}), calc(#{100%/$layoutY}))
+      #{if($isRow, height, width)}: if($spacing > 0, calc((#{100%} - #{(ceil($gridY) - 1)*$spacing}) / #{$gridY}), calc(#{100%/$gridY}))
     margin: 0
     margin-#{if($isRow, right, bottom)}: $spacing
     margin-#{if($isRow, top, left)}: if($wrap == wrap, $spacing, null)
     overflow: if($isFixed, auto, null)
   @if $wrap == wrap
-    > *:nth-child(-n+#{$layoutX})
+    > *:nth-child(-n+#{$gridX})
       margin-#{if($isRow, top, left)}: 0
-    > *:nth-child(#{$layoutX}n)
+    > *:nth-child(#{$gridX}n)
       margin-#{if($isRow, right, bottom)}: 0
   @else
     > *:last-child
