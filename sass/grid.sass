@@ -2,32 +2,44 @@
   iddqd-tools | grid
   ============================== */
 
-=grid($layout: (), $dir: row, $indent: 0, $wrap: wrap)
+=grid($layout: (), $dir: row, $spacing: 0, $wrap: wrap)
+  $layoutFluidValid: type-of($layout) == number and unitless($layout)
+  $layoutFixedValid: type-of($layout) == list and length($layout) == 2 and type-of(nth($layout, 1)) == number and unitless(nth($layout, 1)) and type-of(nth($layout, 2)) == number and unitless(nth($layout, 2))
+  $layoutValid: $layoutFluidValid or $layoutFixedValid
+  $dirValid: index(row col column, $dir) != null
+  $spacingValid: type-of($spacing) == number
+  $wrapValid: index(wrap nowrap, $wrap) != null
+  @if not $layoutValid
+    @error 'Invalid layout \'#{$layout}\', must be a number or a list of two numbers.'
+  @if not $dirValid
+    @error 'Invalid direction \'#{$dir}\', must be row, col or column.'
+  @if not $spacingValid
+    @error 'Invalid spacing \'#{$spacing}\', must be a unit.'
+  @if not $wrapValid
+    @error 'Invalid wrap \'#{$wrap}\', must be wrap or nowrap.'
   $isRow: $dir == row
   $isFixed: type-of($layout) == list and length($layout) == 2
   $layoutX: if($isFixed, nth($layout, 1), $layout)
   $layoutY: if($isFixed, nth($layout, 2), null)
   display: flex
-  flex-direction: $dir
+  flex-direction: if($dir == col, column, $dir)
   flex-wrap: $wrap
   align-content: flex-start
   justify-content: flex-start
   overflow: if($isFixed or $wrap == nowrap, auto, null)
   > *:nth-child(n)
-    flex: 0 0 if($indent > 0, calc((#{100%} - #{(ceil($layoutX) - 1)*$indent}) / #{$layoutX}), calc(#{100%/$layoutX}))
+    flex: 0 0 if($spacing > 0, calc((#{100%} - #{(ceil($layoutX) - 1)*$spacing}) / #{$layoutX}), calc(#{100%/$layoutX}))
     @if $isFixed
-      #{if($isRow, height, width)}: if($indent > 0, calc((#{100%} - #{(ceil($layoutY) - 1)*$indent}) / #{$layoutY}), calc(#{100%/$layoutY}))
+      #{if($isRow, height, width)}: if($spacing > 0, calc((#{100%} - #{(ceil($layoutY) - 1)*$spacing}) / #{$layoutY}), calc(#{100%/$layoutY}))
     margin: 0
-    margin-#{if($isRow, right, bottom)}: $indent
-    margin-#{if($isRow, top, left)}: if($wrap == wrap, $indent, null)
+    margin-#{if($isRow, right, bottom)}: $spacing
+    margin-#{if($isRow, top, left)}: if($wrap == wrap, $spacing, null)
     overflow: if($isFixed, auto, null)
   @if $wrap == wrap
     > *:nth-child(-n+#{$layoutX})
       margin-#{if($isRow, top, left)}: 0
     > *:nth-child(#{$layoutX}n)
       margin-#{if($isRow, right, bottom)}: 0
-  @else if $wrap == nowrap
+  @else
     > *:last-child
       margin-#{if($isRow, right, bottom)}: 0
-  @else
-    @warn 'Invalid direction \'#{$dir}\' for grid() in selector \'#{&}\'.'

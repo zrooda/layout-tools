@@ -2,18 +2,25 @@
   iddqd-tools | align
   ============================== */
 
-=align($align: (), $dir: row, $indent: 0)
-  @if length($align) != 2
-    @warn 'Invalid length of arguments \'#{length($args)}\' for align() in selector \'#{&}\'.'
+=align($align: (), $dir: row, $spacing: 0)
+  $alignValid: type-of($align) == list and length($align) == 2 and index(left center middle right, nth($align, 1)) != null and index(top center middle bottom, nth($align, 2)) != null
+  $dirValid: index(row col column, $dir) != null
+  $spacingValid: type-of($spacing) == number
+  @if not $alignValid
+    @error 'Invalid align \'#{$align}\', must be left|center|middle|right and top|center|middle|bottom.'
+  @if not $dirValid
+    @error 'Invalid direction \'#{$dir}\', must be row, col or column.'
+  @if not $spacingValid
+    @error 'Invalid spacing \'#{$spacing}\', must be a unit.'
   $flexMap: (left: flex-start, right: flex-end, top: flex-start, bottom: flex-end, middle: center)
   $x: map-get($flexMap, nth($align, 1)) or nth($align, 1)
   $y: map-get($flexMap, nth($align, 2)) or nth($align, 2)
   display: flex
-  flex-direction: $dir
+  flex-direction: if($dir == col, column, $dir)
   justify-content: if($dir == 'row', $x, $y)
   align-items: if($dir == 'row', $y, $x)
-  @if $indent > 0
+  @if $spacing > 0
     > *:nth-child(n)
-      margin-#{if($dir == row, right, bottom)}: $indent
+      margin-#{if($dir == row, right, bottom)}: $spacing
     > *:#{if($x == right, first, last)}-child
       margin-#{if($dir == row, right, bottom)}: 0
