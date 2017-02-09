@@ -3,12 +3,18 @@
   ============================== */
 
 =aspect-ratio($ratio-or-width, $height: null)
-  $padding: if($height, percentage($height/$ratio-or-width), percentage(1/$ratio-or-width))
+  position: relative
   &:before
     content: ''
     float: left
-    padding-bottom: $padding
+    padding-bottom: if($height, percentage($height/$ratio-or-width), percentage(1/$ratio-or-width))
   &:after
     content: ''
     display: table
     clear: both
+  > *
+    position: absolute
+    top: 0
+    right: 0
+    bottom: 0
+    left: 0
