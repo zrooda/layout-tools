@@ -11,10 +11,15 @@
 - align children with Photoshop-like props in either direction converted to flexbox
 - emulates internal padding between children
 
-```
-+align(<horizontal> <vertical>, row|col|column, <unit>)
+```Sass
++align(<horizontal> <vertical>, row(default)|col|column, <unit>)
+
 // horizontal: left|center|middle|right
 // vertical: top|center|middle|bottom
+
+// Example
+.container
+  +align(right center, col, 10px)
 ```
 
 ## grid
@@ -23,8 +28,15 @@
 - spreads children to fit exact row or column space
 - emulates internal padding between children
 
-```
-+grid(<number> <?number:fixed>, row|col|column, <unit>, wrap|nowrap)
+```Sass
++grid(<number> <?number:fixed>, row(default)|col|column, <unit>, wrap(default)|nowrap)
+
+// Example
+.container
+  +grid(4, row, 20px)
+
+  @media (max-width: 640px)
+    +grid(1 2.5, col, 10px, nowrap)
 ```
 
 ## other
