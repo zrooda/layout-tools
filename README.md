@@ -1,6 +1,4 @@
-> Singing in the pain (of webdev)
-
-[Demo!](http://codepen.io/salsita/full/bgxWBX/)
+[Click here for demo!](http://codepen.io/salsita/full/bgxWBX/)
 
 `npm install iddqd-tools --save`
 
@@ -19,6 +17,27 @@ pseudo
 em(16)
 rem(24)
 
-align(left center, 10px, row)  // Noice!
-grid(4, 10px, column, wrap)    // N000ice!!1
+align(left center, row, 10px)  // Noice!
+grid(4, column, 10px, wrap)    // N000ice!!1
+```
+
+## align
+
+- align children with Photoshop-like props in either direction converted to flexbox
+- emulates internal padding between children
+
+```
++align(<horizontal> <vertical>, row|col|column, <unit>)
+// horizontal: left|center|middle|right
+// vertical: top|center|middle|bottom
+```
+
+## grid
+
+- bidirectional fluid or fixed layout
+- spreads children to fit exact row or column space
+- emulates internal padding between children
+
+```
++grid(<number> <<number:fixed>, row|col|column, <unit>, wrap|nowrap)
 ```
