@@ -7,7 +7,7 @@
 =background-retina($src, $args: ())
   background-image: url($src)
   background-size: $args
-  +media('retina2x')
+  @media (-webkit-min-device-pixel-ratio: 2), (min-resolution: 192dpi), (min-resolution: 2dppx)
     background-image: __appendImageExtension($src, '@2x')
-  +media('retina3x')
+  @media (-webkit-min-device-pixel-ratio: 3), (min-resolution: 350dpi), (min-resolution: 3dppx)
     background-image: __appendImageExtension($src, '@3x')
