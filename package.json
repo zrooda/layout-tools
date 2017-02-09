@@ -1,6 +1,6 @@
 {
   "name": "layout-tools",
-  "version": "1.5.4",
+  "version": "1.5.5",
   "description": "Mighty tools for the hands-on approach.",
   "main": "sass/all.sass",
   "scripts": {
