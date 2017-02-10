@@ -15,8 +15,7 @@
   position: absolute
   @each $param in $pos
     $index: $index + 1
-    $next: if(($index + 1) <= length($pos), nth($pos, index($pos, $param) + 1), false)
-    @warn $next
+    $next: if(($index + 1) <= length($pos), nth($pos, $index + 1), false)
     $isUnit: type-of($param) == number
     $isFill: $param == fill
     $isCenter: $param == center or $param == middle or $param == 50%
@@ -72,7 +71,7 @@
             #{$param}: 0
             $xSet: true
           @else
-            @error 'Invalid sunit \'#{$next}\' for position \'#{$param}\', must be a unit.'
+            @error 'Invalid unit \'#{$next}\' for position \'#{$param}\', must be a unit.'
       @else
         @error 'Invalid position \'#{$param}\', must be left|center|middle|right|fill or a unit.'
     // Parse Y
@@ -106,17 +105,7 @@
           $ySet: true
       @else
         @error 'Invalid position \'#{$param}\', must be top|center|middle|bottom|fill or a unit.'
-    @else if $xSet and $ySet and $next
-      @error 'Invalid following value \'#{$next}\' for position \'#{$param}\', no effect.'
+    @if $xSet and $ySet and $next and ($isUnit or $isFill or $isCenter)
+      @error 'Invalid following value \'#{$next}\', no effect.'
   @if $offset != (0, 0)
     transform: translate(#{$offset})
-
-// Testing
-div.a
-  +abs(5px)
-div.b
-  +abs(right center 50px)
-div.c
-  +abs(10px bottom 5px)
-div.d
-  +abs(50% fill)
