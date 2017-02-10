@@ -13,14 +13,14 @@
   @if not $dirValid
     @error 'Invalid direction \'#{$dir}\', must be row, col or column.'
   $flexMap: (left: flex-start, right: flex-end, top: flex-start, bottom: flex-end, middle: center)
-  $x: map-get($flexMap, nth($align, 1)) or nth($align, 1)
-  $y: map-get($flexMap, nth($align, 2)) or nth($align, 2)
+  $alignX: map-get($flexMap, nth($align, 1)) or nth($align, 1)
+  $alignY: map-get($flexMap, nth($align, 2)) or nth($align, 2)
   display: flex
   flex-direction: if($dir == col, column, $dir)
-  justify-content: if($dir == 'row', $x, $y)
-  align-items: if($dir == 'row', $y, $x)
+  justify-content: if($dir == 'row', $alignX, $alignY)
+  align-items: if($dir == 'row', $alignY, $alignX)
   @if $spacing > 0
     > *:nth-child(n)
       margin-#{if($dir == row, right, bottom)}: $spacing
-    > *:#{if($x == right, first, last)}-child
+    > *:#{if($alignX == right, first, last)}-child
       margin-#{if($dir == row, right, bottom)}: 0

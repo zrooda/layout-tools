@@ -1,0 +1,122 @@
+/*
+  layout-tools | abs
+  ============================== */
+
+=abs($pos: (left top))
+  $validX: left center middle right fill
+  $validY: top center middle bottom fill
+  $posValid: type-of($pos) == string or type-of($pos) == number or (type-of($pos) == list and length($pos) >= 2 and length($pos) <= 4)
+  @if not $posValid
+    @error 'Invalid position \'#{$pos}\', must be a string, unit or a list of 2 - 4 directions.'
+  $xSet: false
+  $ySet: false
+  $index: 0
+  $offset: (0, 0)
+  position: absolute
+  @each $param in $pos
+    $index: $index + 1
+    $next: if(($index + 1) <= length($pos), nth($pos, index($pos, $param) + 1), false)
+    @warn $next
+    $isUnit: type-of($param) == number
+    $isFill: $param == fill
+    $isCenter: $param == center or $param == middle or $param == 50%
+    // Parse X
+    @if not $xSet
+      // Check single param
+      @if length($pos) == 1
+        @if $isCenter
+          left: 50%
+          top: 50%
+          $offset: (-50%, -50%)
+          $xSet: true
+          $ySet: true
+        @else if $isFill
+          top: 0
+          right: 0
+          bottom: 0
+          left: 0
+          width: auto
+          height: auto
+          $xSet: true
+          $ySet: true
+        @else if $isUnit
+          left: $param
+          top: $param
+          $xSet: true
+          $ySet: true
+        @else
+          @error 'Invalid position \'#{$param}\', must be center|middle|fill, unit or a list of 2 - 4 directions.'
+      // Check unit with default direction
+      @else if $isUnit
+        left: $param
+        @if $isCenter
+          $offset: set-nth($offset, 1, -50%)
+        $xSet: true
+      // Check named direction
+      @else if index($validX, $param) != null
+        @if $isCenter
+          left: 50%
+          $offset: set-nth($offset, 1, -50%)
+          $xSet: true
+        @else if $isFill
+          left: 0
+          right: 0
+          width: auto
+          $xSet: true
+        // Check following unit
+        @else if $next
+          @if type-of($next) == number
+            #{$param}: $next
+            $xSet: true
+          @else if index($validY, $next) != null
+            #{$param}: 0
+            $xSet: true
+          @else
+            @error 'Invalid sunit \'#{$next}\' for position \'#{$param}\', must be a unit.'
+      @else
+        @error 'Invalid position \'#{$param}\', must be left|center|middle|right|fill or a unit.'
+    // Parse Y
+    @else if not $ySet and $xSet
+      // Check unit with default direction
+      @if $isUnit
+        top: $param
+        @if $isCenter
+          $offset: set-nth($offset, 2, -50%)
+        $ySet: true
+      // Check named direction
+      @else if index($validY, $param) != null
+        @if $isCenter
+          top: 50%
+          $offset: set-nth($offset, 2, -50%)
+          $ySet: true
+        @else if $isFill
+          top: 0
+          bottom: 0
+          height: auto
+          $ySet: true
+        // Check following unit
+        @else if $next
+          @if type-of($next) == number
+            #{$param}: $next
+            $ySet: true
+          @else
+            @error 'Invalid unit \'#{$next}\' for position \'#{$param}\', must be a unit.'
+        @else
+          #{$param}: 0
+          $ySet: true
+      @else
+        @error 'Invalid position \'#{$param}\', must be top|center|middle|bottom|fill or a unit.'
+    @else if $xSet and $ySet and $next
+      @error 'Invalid following value \'#{$next}\' for position \'#{$param}\', no effect.'
+  @if $offset != (0, 0)
+    transform: translate(#{$offset})
+
+// Testing
+div.a
+  +abs(5px)
+div.b
+  +abs(right center 50px)
+div.c
+  +abs(10px bottom 5px)
+div.d
+  +abs(50% fill)

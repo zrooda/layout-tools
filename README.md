@@ -48,6 +48,6 @@
 - [unselectable](sass/unselectable.sass)
 - [aspect-ratio](sass/aspect-ratio.sass)
 - [background-retina](sass/background-retina.sass)
-- [abs-fill](sass/abs-fill.sass)
+- [abs](sass/abs.sass)
 - [pseudo](sass/pseudo.sass)
 - [em, rem](sass/em-rem.sass)
