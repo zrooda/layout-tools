@@ -1,5 +1,7 @@
 > Anticipate the difficult by managing the easy. - Phu K. C'Eses
 
+High polish expressive mixins for CSS layout authors, available as a bundle or separately.
+
 [Click here for demo!](http://codepen.io/salsita/full/bgxWBX/)
 
 `npm install layout-tools --save`
@@ -8,14 +10,17 @@
 
 ## align
 
-- align children with Photoshop-like props in either direction converted to flexbox
+- expressive wrapper over flexbox
+- aligns children inside parent with Photoshop-like props in either direction
 - emulates internal padding between children
 
-```Sass
-+align(<horizontal> <vertical>, <spacing>, row(default)|col|column)
+`+align(<horizontal> <vertical>, <spacing>, <direction>)`
 
-// horizontal: left|center|middle|right
-// vertical: top|center|middle|bottom
+```Sass
+// horizontal: left(default)|center|middle|right
+// vertical: top(default)|center|middle|bottom
+// spacing: unit(default 0)
+// direction: row(default)|col|column
 
 // Example
 .container
@@ -28,8 +33,14 @@
 - spreads children to fit exact row or column space
 - emulates internal padding between children
 
+``
+
+`+grid(<items-x> <?items-y>, <spacing>, <direction>, <wrap>)`
+
 ```Sass
-+grid(<number> <?number:fixed>, <spacing>, row(default)|col|column, wrap(default)|nowrap)
+// spacing: unit(default 0)
+// direction: row(default)|col|column
+// wrap: wrap(default)|nowrap
 
 // Example
 .container
@@ -37,6 +48,26 @@
 
   @media (max-width: 640px)
     +grid(1 2.5, col, 10px, nowrap)
+```
+
+## abs
+
+- expressive wrapper over absolute positioning
+- automatic transform offset for centering
+- bidirectional fill with automatic sizing
+
+`+abs(<horizonal> <?vertical>)`
+
+```Sass
+// horizontal: left(default)|center|middle|right|fill or unit
+// vertical: top(default)|center|middle|bottom|fill or unit
+
++abs(50%)
++abs(fill)
++abs(center)
++abs(right 20px fill)
++abs(center bottom 5px)
++abs(right 30% top 20px)
 ```
 
 ## other
@@ -48,6 +79,5 @@
 - [unselectable](sass/unselectable.sass)
 - [aspect-ratio](sass/aspect-ratio.sass)
 - [background-retina](sass/background-retina.sass)
-- [abs](sass/abs.sass)
 - [pseudo](sass/pseudo.sass)
 - [em, rem](sass/em-rem.sass)

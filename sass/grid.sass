@@ -2,7 +2,7 @@
   layout-tools | grid
   ============================== */
 
-=grid($grid: (), $spacing: 0, $dir: row, $wrap: wrap)
+=grid($grid: (2), $spacing: 0, $dir: row, $wrap: wrap)
   $gridFluidValid: type-of($grid) == number and unitless($grid)
   $gridFixedValid: type-of($grid) == list and length($grid) == 2 and type-of(nth($grid, 1)) == number and unitless(nth($grid, 1)) and type-of(nth($grid, 2)) == number and unitless(nth($grid, 2))
   $gridValid: $gridFluidValid or $gridFixedValid

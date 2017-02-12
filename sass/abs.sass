@@ -4,6 +4,8 @@
 
 =abs($pos: (left top))
   $validX: left center middle right fill
+  $pureX: left right fill
+  $pureY: top bottom fill
   $validY: top center middle bottom fill
   $posValid: type-of($pos) == string or type-of($pos) == number or (type-of($pos) == list and length($pos) >= 2 and length($pos) <= 4)
   @if not $posValid
@@ -17,8 +19,40 @@
     $index: $index + 1
     $next: if(($index + 1) <= length($pos), nth($pos, $index + 1), false)
     $isUnit: type-of($param) == number
+
+    $isDirX: index($pureX, $param) != null
+    $isDirY: index($pureX, $param) != null
+
     $isFill: $param == fill
     $isCenter: $param == center or $param == middle or $param == 50%
+
+  
+  @for $i from 1 to length($pos)
+    $param: nth($pos, $i)
+
+
+    @if $isUnit or $isCenter
+      @if $isUnit
+        #{if($xSet, top, left)}: $param
+        @if not $xSet
+          $xSet: true
+        @else if not $ySet
+          $ySet: true
+      @else if $isCenter
+        #{if($xSet, top, left)}: 50%
+        @if not $xSet
+          $xSet: true
+        @else if not $ySet
+          $ySet: true
+    @else if $isDirX or $isDirY
+
+      @else if $isFill
+        #{if($xSet, top, left)}: 0
+        #{if($xSet, bottom, left)}: 0
+        #{if($xSet, height, width)}: auto
+
+
+
     // Parse X
     @if not $xSet
       // Check single param
@@ -109,3 +143,11 @@
       @error 'Invalid following value \'#{$next}\', no effect.'
   @if $offset != (0, 0)
     transform: translate(#{$offset})
+
++abs(50%)
++abs(fill)
++abs(fill 20px)
++abs(center)
++abs(right 20px fill)
++abs(center bottom 5px)
++abs(right 30% top 20px)
