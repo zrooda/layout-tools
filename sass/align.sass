@@ -5,7 +5,7 @@
 =align($align: (left top), $spacing: 0, $dir: row)
   $alignValid: type-of($align) == list and length($align) == 2 and index(left center middle right, nth($align, 1)) != null and index(top center middle bottom, nth($align, 2)) != null
   @if not $alignValid
-    @error 'Invalid align \'#{$align}\', must be left|center|middle|right and top|center|middle|bottom.'
+    @error 'Invalid align \'#{$align}\', must be left|center|middle|right and/or top|center|middle|bottom.'
   $spacingValid: type-of($spacing) == number
   @if not $spacingValid
     @error 'Invalid spacing \'#{$spacing}\', must be a unit.'
