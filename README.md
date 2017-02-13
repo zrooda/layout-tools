@@ -33,8 +33,6 @@ High polish expressive mixins for CSS layout authors, available as a bundle or s
 - spreads children to fit exact row or column space
 - emulates internal padding between children
 
-``
-
 `+grid(<items-x> <?items-y>, <spacing>, <direction>, <wrap>)`
 
 ```Sass
