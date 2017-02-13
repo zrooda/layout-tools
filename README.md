@@ -54,7 +54,7 @@ High polish expressive mixins for CSS layout authors, available as a bundle or s
 
 - expressive wrapper over absolute positioning
 - automatic transform offset for centering
-- bidirectional fill with automatic sizing
+- bidirectional fill with automatic sizing that accepts distance off vertical/horizontal screen edges
 
 `+abs(<horizonal> <?vertical>)`
 
@@ -62,12 +62,12 @@ High polish expressive mixins for CSS layout authors, available as a bundle or s
 // horizontal: left(default)|center|middle|right|fill or unit
 // vertical: top(default)|center|middle|bottom|fill or unit
 
-+abs(50%)
-+abs(fill)
-+abs(center)
++abs(50% center)
++abs(right center)
 +abs(right 20px fill)
++abs(fill 50px fill)
 +abs(center bottom 5px)
-+abs(right 30% top 20px)
++abs(right 30% top 20px bottom)
 ```
 
 ## other
