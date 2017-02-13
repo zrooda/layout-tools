@@ -3,14 +3,11 @@
   ============================== */
 
 =abs($pos: (left top))
+  $pos: if(type-of($pos) == string or type-of($pos) == number, set-nth((null), 1, $pos), $pos)
   $validX: left right fill
   $validY: top bottom fill
-  $posValid: type-of($pos) == string or type-of($pos) == number or (type-of($pos) == list and length($pos) >= 2 and length($pos) <= 4)
-  @if not $posValid
-    @error 'Invalid position \'#{$pos}\', must be a string, unit or a list of 2 - 4 directions.'
   $xSet: false
   $offset: (0, 0)
-  $pos: if(type-of($pos) == string or type-of($pos) == number, set-nth((null), 1, $pos), $pos)
   $i: 0
   position: absolute
   @while $i < length($pos)
