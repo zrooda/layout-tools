@@ -50,7 +50,6 @@ $lt_posFlow: (left top right bottom) !default
       #{if($isVerticalFill, left, top)}:  if($isShorthand or $isFillShorthand, if($isShorthand, 0, $next), null)
       #{if($isVerticalFill, bottom, right)}: if($isNextValue, $next, 0)
       #{if($isVerticalFill, right, bottom)}: if($isShorthand or $isFillShorthand, if($isShorthand, 0, $next), null)
-      $unusedDirs: __removeFromList($unusedDirs, $currentDir)
       @if $isVerticalFill
         $unusedDirs: __removeFromList($unusedDirs, top)
         $unusedDirs: __removeFromList($unusedDirs, bottom)
