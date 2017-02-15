@@ -48,24 +48,27 @@ High polish expressive mixins for CSS layout authors, available as a bundle or s
     +grid(1 2.5, col, 10px, nowrap)
 ```
 
-## abs, rel, fix
+## rel, abs, fix
 
-- expressive wrapper over positioning
+- expressive unified wrappers over positioning
 - keywords `center|middle` with automatic transform offset fix
 - keyword `fill` that accepts distance off screen edges
-- shorthands (`center`, `25px`, `fill`, `fill 10px`)
+- smart shorthands (`center`, `25px`, `fill`, `fill 10px`)
 - configurable flow of orientation, default `left top right bottom`
-- circular and conflict detection
+- circular and internal overwrite conflict detection
 
 `+abs(<left|vertical> <top|horizontal> <?right> <?bottom>)`
 
 ```Sass
-+abs(50%)
-+fix(fill 15px)
-+abs(right center)
-+rel(right 20px fill)
-+fix(center bottom 5px)
-+abs(right 30% top 20px bottom)
+.centered
+  +abs(50%)
+
+.other
+  +fix(fill 15px)
+  +abs(right center)
+  +rel(right 20px fill)
+  +fix(center bottom 5px)
+  +abs(right 30% top 20px bottom)
 ```
 
 ## other

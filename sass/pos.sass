@@ -68,11 +68,11 @@ $lt_posFlow: (left top right bottom) !default
   @if $offset != (0, 0)
     transform: translate(#{$offset})
 
-=abs($dirs: (nth($lt_posFlow, 1), nth($lt_posFlow, 2)))
-  +pos($dirs, absolute)
-
 =rel($dirs: (nth($lt_posFlow, 1), nth($lt_posFlow, 2)))
   +pos($dirs, relative)
+
+=abs($dirs: (nth($lt_posFlow, 1), nth($lt_posFlow, 2)))
+  +pos($dirs, absolute)
 
 =fix($dirs: (nth($lt_posFlow, 1), nth($lt_posFlow, 2)))
   +pos($dirs, fixed)
