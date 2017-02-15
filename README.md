@@ -54,8 +54,8 @@ High polish expressive mixins for CSS layout authors, available as a bundle or s
 - keywords `center|middle` with automatic transform offset fix
 - keyword `fill` that accepts distance off screen edges
 - smart shorthands (`center`, `25px`, `fill`, `fill 10px`)
-- configurable flow of orientation, default `left top right bottom`
-- circular and internal overwrite conflict detection
+- configurable circular flow of orientation, default `left top right bottom`
+- internal overwrite conflict detection
 
 `+abs(<left|vertical> <top|horizontal> <?right> <?bottom>)`
 
