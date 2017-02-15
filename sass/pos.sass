@@ -5,12 +5,11 @@
 @import helpers/remove-from-list
 
 $lt_absFlow: (left top right bottom) !default
+@if not (type-of($lt_absFlow) == list and length($lt_absFlow) == 4)
+  @error 'Invalid direction settings \'#{$lt_absFlow}\', must be a list of 4 directions.'
 
-=pos($dirs: (left top), $pos: fixed)
+=__pos($dirs: (nth($lt_absFlow, 1), nth($lt_absFlow, 2)), $pos: fixed)
   $dirs: if(type-of($dirs) == string or type-of($dirs) == number, set-nth((null), 1, $dirs), $dirs)
-  $dirsValid: type-of($dirs) == list and type-of($lt_absFlow) == list and length($lt_absFlow) == 4
-  @if not $dirsValid
-    @error 'Invalid position \'#{$align}\' or direction settings \'#{$lt_absFlow}\'.'
   $offset: (0, 0)
   $unusedDirs: $lt_absFlow
   $i: 0 // param index
@@ -70,11 +69,11 @@ $lt_absFlow: (left top right bottom) !default
   @if $offset != (0, 0)
     transform: translate(#{$offset})
 
-=abs($dirs)
-  +pos($dirs, absolute)
+=abs($dirs: (nth($lt_absFlow, 1), nth($lt_absFlow, 2)))
+  +__pos($dirs, absolute)
 
-=rel($dirs)
-  +pos($dirs, relative)
+=rel($dirs: (nth($lt_absFlow, 1), nth($lt_absFlow, 2)))
+  +__pos($dirs, relative)
 
-=fix($dirs)
-  +pos($dirs, fixed)
+=fix($dirs: (nth($lt_absFlow, 1), nth($lt_absFlow, 2)))
+  +__pos($dirs, fixed)
