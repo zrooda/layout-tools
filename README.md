@@ -51,8 +51,8 @@ High polish expressive mixins for CSS layout authors, available as a bundle or s
 ## abs
 
 - expressive wrapper over absolute positioning
-- keywords `center|middle` with automatic transform offset
-- keyword `fill` with size correction that accepts distance off screen edges
+- keywords `center|middle` with automatic transform offset fix
+- keyword `fill` that accepts distance off screen edges
 - shorthands (`center`, `25px`, `fill`, `fill 10px`)
 - configurable flow of orientation, default `left top right bottom`
 
