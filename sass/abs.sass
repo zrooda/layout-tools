@@ -51,8 +51,6 @@ $lt_absFlow: (left top right bottom) !default
         #{if($isHorizontal, bottom, right)}: if($isNextValue, $next, 0)
         #{if($isHorizontal, left, top)}:  if($isShorthand or $isFillShorthand, if($isShorthand, 0, $next), null)
         #{if($isHorizontal, right, bottom)}: if($isShorthand or $isFillShorthand, if($isShorthand, 0, $next), null)
-        #{if($isHorizontal, height, width)}: auto
-        #{if($isHorizontal, width, height)}: if($isShorthand or $isFillShorthand, auto, null)
         $f: $f + 1
         $i: if($isNextValue or $isFillShorthand, $i + 1, $i)
       @else
