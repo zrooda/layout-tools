@@ -51,16 +51,14 @@ High polish expressive mixins for CSS layout authors, available as a bundle or s
 ## abs
 
 - expressive wrapper over absolute positioning
-- automatic transform offset for centering
-- bidirectional fill with automatic sizing that accepts distance off vertical/horizontal screen edges
-- accepts shorthands (`center`, `50%`, `fill 10px`)
+- keywords `center|middle` with automatic transform offset
+- keyword `fill` with size correction that accepts distance off screen edges
+- shorthands (`center`, `25px`, `fill`, `fill 10px`)
+- configurable flow of orientation, default `left top right bottom`
 
-`+abs(<horizonal> <?vertical>)`
+`+abs(<left|keyword> <top|keyword> <?right> <?bottom>)`
 
 ```Sass
-// horizontal: left(default)|center|middle|right|fill or unit
-// vertical: top(default)|center|middle|bottom|fill or unit
-
 +abs(50%)
 +abs(fill 15px)
 +abs(right center)

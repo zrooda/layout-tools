@@ -5,10 +5,10 @@
 @import helpers/to-number
 @import helpers/strip-unit
 
-$fontScale: 62.5% !default
+$lt_fontScale: 62.5% !default
 
-@function em($px, $scale: $fontScale, $unit: 'em')
+@function em($px, $scale: $lt_fontScale, $unit: 'em')
   @return __toNumber($px/(.16*__stripUnit($scale)) + $unit)
 
-@function rem($px, $scale: $fontScale)
+@function rem($px, $scale: $lt_fontScale)
   @return em($px, $scale, 'rem')

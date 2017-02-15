@@ -2,13 +2,20 @@
   layout-tools | abs
   ============================== */
 
+$lt_absFlow: (left top right bottom) !default
+
 =abs($pos: (left top))
   $pos: if(type-of($pos) == string or type-of($pos) == number, set-nth((null), 1, $pos), $pos)
+  $posValid: type-of($pos) == list and type-of($lt_absFlow) == list and length($lt_absFlow) == 4
+  @if not $posValid
+    @error 'Invalid position \'#{$align}\' or direction settings \'#{$lt_absFlow}\'.'
   $validX: left right fill
   $validY: top bottom fill
-  $xSet: false
   $offset: (0, 0)
-  $i: 0
+  $i: 0 // param index
+  $f: 1 // flow index
+  $verticalFix: false
+  $horizontalFix: false
   position: absolute
   @while $i < length($pos)
     $i: $i + 1
@@ -19,35 +26,40 @@
     $isDirY: index($validY, $param) != null
     $isUnit: type-of($param) == number
     $isFill: $param == fill
-    $isCenter: $param == center or $param == middle or $param == 50%
+    $isCenter: $param == center or $param == middle
     $isShorthand: length($pos) == 1 and ($isUnit or $isCenter or $isFill)
     $isFillShorthand: length($pos) == 2 and $isFill and type-of($next) == number
+    $currentDir: nth($lt_absFlow, $f)
+    $nextDir: if($f + 1 <= length($lt_absFlow), nth($lt_absFlow, $f + 1), false)
     @if $isUnit or $isCenter
-      @if $isUnit and not $isCenter
-        #{if($xSet, top, left)}: $param
-        #{if($xSet, left, top)}: if($isShorthand, $param, null)
-        $xSet: true
+      @if $isUnit
+        #{$currentDir}: $param
+        @if $isShorthand
+          #{$nextDir}: $param
+        $f: $f + 1
       @else if $isCenter
-        #{if($xSet, top, left)}: 50%
-        #{if($xSet, left, top)}: if($isShorthand, 50%, null)
-        $offset: set-nth($offset, if($xSet, 2, 1), -50%)
-        $offset: if($isShorthand, (-50%, -50%), $offset)
-        $xSet: true
+        #{$currentDir}: 50%
+        @if $isShorthand
+          #{$nextDir}: 50%
+        $polarity: 50% * if($f > 2, 1, -1)
+        $offset: if($isShorthand, (-50%, -50%), set-nth($offset, if($f == 2 or $f == 4, 2, 1), $polarity))
+        $f: $f + 1
     @else if $isDirX or $isDirY or $isFill
       @if $isFill
-        #{if($xSet, top, left)}: if($isNextValue, $next, 0)
-        #{if($xSet, bottom, right)}: if($isNextValue, $next, 0)
-        #{if($xSet, left, top)}:  if($isShorthand or $isFillShorthand, if($isShorthand, 0, $next), null)
-        #{if($xSet, right, bottom)}: if($isShorthand or $isFillShorthand, if($isShorthand, 0, $next), null)
-        #{if($xSet, height, width)}: auto
-        #{if($xSet, width, height)}: if($isShorthand or $isFillShorthand, auto, null)
-        $xSet: true
+        $isHorizontal: $f > 1
+        #{if($isHorizontal, top, left)}: if($isNextValue, $next, 0)
+        #{if($isHorizontal, bottom, right)}: if($isNextValue, $next, 0)
+        #{if($isHorizontal, left, top)}:  if($isShorthand or $isFillShorthand, if($isShorthand, 0, $next), null)
+        #{if($isHorizontal, right, bottom)}: if($isShorthand or $isFillShorthand, if($isShorthand, 0, $next), null)
+        #{if($isHorizontal, height, width)}: auto
+        #{if($isHorizontal, width, height)}: if($isShorthand or $isFillShorthand, auto, null)
+        $f: $f + 1
         $i: if($isNextValue or $isFillShorthand, $i + 1, $i)
       @else
         #{$param}: if($isNextValue, $next, 0)
-        $xSet: true
+        $f: $f + 1
         $i: if($isNextValue, $i + 1, $i)
     @else 
-      @error 'Invalid position \'#{$param}\', must be left|center|middle|right|fill, top|center|middle|bottom|fill or a unit.'
+      @error 'Invalid position \'#{$param}\', must be left|top|center|middle|right|bottom|fill or a unit.'
   @if $offset != (0, 0)
     transform: translate(#{$offset})
