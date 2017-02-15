@@ -34,7 +34,6 @@
         $offset: if($isShorthand, (-50%, -50%), $offset)
         $xSet: true
     @else if $isDirX or $isDirY or $isFill
-      @if $isFill and $isShorthand
       @if $isFill
         #{if($xSet, top, left)}: if($isNextValue, $next, 0)
         #{if($xSet, bottom, right)}: if($isNextValue, $next, 0)
