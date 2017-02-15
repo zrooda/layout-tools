@@ -20,21 +20,30 @@
     $isUnit: type-of($param) == number
     $isFill: $param == fill
     $isCenter: $param == center or $param == middle or $param == 50%
+    $isShorthand: length($pos) == 1 and ($isUnit or $isCenter or $isFill)
+    $isFillShorthand: length($pos) == 2 and $isFill and type-of($next) == number
     @if $isUnit or $isCenter
       @if $isUnit and not $isCenter
         #{if($xSet, top, left)}: $param
+        #{if($xSet, left, top)}: if($isShorthand, $param, null)
         $xSet: true
       @else if $isCenter
         #{if($xSet, top, left)}: 50%
+        #{if($xSet, left, top)}: if($isShorthand, 50%, null)
         $offset: set-nth($offset, if($xSet, 2, 1), -50%)
+        $offset: if($isShorthand, (-50%, -50%), $offset)
         $xSet: true
     @else if $isDirX or $isDirY or $isFill
+      @if $isFill and $isShorthand
       @if $isFill
         #{if($xSet, top, left)}: if($isNextValue, $next, 0)
         #{if($xSet, bottom, right)}: if($isNextValue, $next, 0)
+        #{if($xSet, left, top)}:  if($isShorthand or $isFillShorthand, if($isShorthand, 0, $next), null)
+        #{if($xSet, right, bottom)}: if($isShorthand or $isFillShorthand, if($isShorthand, 0, $next), null)
         #{if($xSet, height, width)}: auto
+        #{if($xSet, width, height)}: if($isShorthand or $isFillShorthand, auto, null)
         $xSet: true
-        $i: if($isNextValue, $i + 1, $i)
+        $i: if($isNextValue or $isFillShorthand, $i + 1, $i)
       @else
         #{$param}: if($isNextValue, $next, 0)
         $xSet: true
