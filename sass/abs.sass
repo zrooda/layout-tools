@@ -2,6 +2,8 @@
   layout-tools | abs
   ============================== */
 
+@import helpers/remove-from-list
+
 $lt_absFlow: (left top right bottom) !default
 
 =abs($pos: (left top))
@@ -10,6 +12,7 @@ $lt_absFlow: (left top right bottom) !default
   @if not $posValid
     @error 'Invalid position \'#{$align}\' or direction settings \'#{$lt_absFlow}\'.'
   $offset: (0, 0)
+  $unusedDirs: $lt_absFlow
   $i: 0 // param index
   $f: 1 // flow index
   position: absolute
@@ -25,32 +28,44 @@ $lt_absFlow: (left top right bottom) !default
     $isCenter: $param == center or $param == middle
     $isShorthand: length($pos) == 1 and ($isUnit or $isCenter or $isFill)
     $isFillShorthand: length($pos) == 2 and $isFill and type-of($next) == number
-    $f: if($isVertical or $isHorizontal, index($lt_absFlow), $f)
+    $f: if($isVertical or $isHorizontal, index($lt_absFlow, $param), $f)
     $f: if($f > length($lt_absFlow), $f - length($lt_absFlow), $f)
     $currentDir: nth($lt_absFlow, $f)
+    @if not index($unusedDirs, $currentDir)
+      @error 'Direction \'#{$currentDir}\' is already set in \'#{$pos}\'.'
     @if $isUnit
       #{$currentDir}: $param
       top: if($isShorthand, $param, null)
+      $unusedDirs: __removeFromList($unusedDirs, $currentDir)
       $f: $f + 1
     @else if $isCenter
       #{$currentDir}: 50%
       top: if($isShorthand, 50%, null)
       $polarity: 50% * if($f > 2, 1, -1)
       $offset: if($isShorthand, (-50%, -50%), set-nth($offset, if($f == 2 or $f == 4, 2, 1), $polarity))
+      $unusedDirs: __removeFromList($unusedDirs, $currentDir)
       $f: $f + 1
     @else if $isFill
       $isVerticalFill: $f == index($lt_absFlow, top) or $f == index($lt_absFlow, bottom)
       #{if($isVerticalFill, top, left)}: if($isNextValue, $next, 0)
-      #{if($isVerticalFill, bottom, right)}: if($isNextValue, $next, 0)
       #{if($isVerticalFill, left, top)}:  if($isShorthand or $isFillShorthand, if($isShorthand, 0, $next), null)
+      #{if($isVerticalFill, bottom, right)}: if($isNextValue, $next, 0)
       #{if($isVerticalFill, right, bottom)}: if($isShorthand or $isFillShorthand, if($isShorthand, 0, $next), null)
+      $unusedDirs: __removeFromList($unusedDirs, $currentDir)
+      @if $isVerticalFill
+        $unusedDirs: __removeFromList($unusedDirs, top)
+        $unusedDirs: __removeFromList($unusedDirs, bottom)
+      @else
+        $unusedDirs: __removeFromList($unusedDirs, left)
+        $unusedDirs: __removeFromList($unusedDirs, right)
       $f: $f + 1
       $i: if($isNextValue or $isFillShorthand, $i + 1, $i)
     @else if $isVertical or $isHorizontal
-      #{$param}: if($isNextValue, $next, 0)
+      #{$currentDir}: if($isNextValue, $next, 0)
+      $unusedDirs: __removeFromList($unusedDirs, $currentDir)
       $f: $f + 1
       $i: if($isNextValue, $i + 1, $i)
     @else 
-      @error 'Invalid position \'#{$param}\', must be left|top|center|middle|right|bottom|fill or a unit.'
+      @error 'Invalid position \'#{$param}\', must be left|top|right|bottom|center|middle|fill or a unit.'
   @if $offset != (0, 0)
     transform: translate(#{$offset})

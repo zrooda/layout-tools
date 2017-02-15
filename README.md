@@ -55,8 +55,9 @@ High polish expressive mixins for CSS layout authors, available as a bundle or s
 - keyword `fill` that accepts distance off screen edges
 - shorthands (`center`, `25px`, `fill`, `fill 10px`)
 - configurable flow of orientation, default `left top right bottom`
+- circular and conflict detection
 
-`+abs(<left|keyword> <top|keyword> <?right> <?bottom>)`
+`+abs(<left|vertical> <top|horizontal> <?right> <?bottom>)`
 
 ```Sass
 +abs(50%)
