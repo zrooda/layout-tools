@@ -4,14 +4,14 @@
 
 @import helpers/remove-from-list
 
-$lt_absFlow: (left top right bottom) !default
-@if not (type-of($lt_absFlow) == list and length($lt_absFlow) == 4)
-  @error 'Invalid direction settings \'#{$lt_absFlow}\', must be a list of 4 directions.'
+$lt_posFlow: (left top right bottom) !default
+@if not (type-of($lt_posFlow) == list and length($lt_posFlow) == 4)
+  @error 'Invalid direction settings \'#{$lt_posFlow}\', must be a list of 4 directions.'
 
-=__pos($dirs: (nth($lt_absFlow, 1), nth($lt_absFlow, 2)), $pos: fixed)
+=pos($dirs: (nth($lt_posFlow, 1), nth($lt_posFlow, 2)), $pos: fixed)
   $dirs: if(type-of($dirs) == string or type-of($dirs) == number, set-nth((null), 1, $dirs), $dirs)
   $offset: (0, 0)
-  $unusedDirs: $lt_absFlow
+  $unusedDirs: $lt_posFlow
   $i: 0 // param index
   $f: 1 // flow index
   position: $pos
@@ -27,9 +27,9 @@ $lt_absFlow: (left top right bottom) !default
     $isCenter: $param == center or $param == middle
     $isShorthand: length($dirs) == 1 and ($isUnit or $isCenter or $isFill)
     $isFillShorthand: length($dirs) == 2 and $isFill and type-of($next) == number
-    $f: if($isVertical or $isHorizontal, index($lt_absFlow, $param), $f)
-    $f: if($f > length($lt_absFlow), $f - length($lt_absFlow), $f)
-    $currentDir: nth($lt_absFlow, $f)
+    $f: if($isVertical or $isHorizontal, index($lt_posFlow, $param), $f)
+    $f: if($f > length($lt_posFlow), $f - length($lt_posFlow), $f)
+    $currentDir: nth($lt_posFlow, $f)
     @if not index($unusedDirs, $currentDir)
       @error 'Direction \'#{$currentDir}\' is already set in \'#{$dirs}\'.'
     @if $isUnit
@@ -45,7 +45,7 @@ $lt_absFlow: (left top right bottom) !default
       $unusedDirs: __removeFromList($unusedDirs, $currentDir)
       $f: $f + 1
     @else if $isFill
-      $isVerticalFill: $f == index($lt_absFlow, top) or $f == index($lt_absFlow, bottom)
+      $isVerticalFill: $f == index($lt_posFlow, top) or $f == index($lt_posFlow, bottom)
       #{if($isVerticalFill, top, left)}: if($isNextValue, $next, 0)
       #{if($isVerticalFill, left, top)}:  if($isShorthand or $isFillShorthand, if($isShorthand, 0, $next), null)
       #{if($isVerticalFill, bottom, right)}: if($isNextValue, $next, 0)
@@ -69,11 +69,11 @@ $lt_absFlow: (left top right bottom) !default
   @if $offset != (0, 0)
     transform: translate(#{$offset})
 
-=abs($dirs: (nth($lt_absFlow, 1), nth($lt_absFlow, 2)))
-  +__pos($dirs, absolute)
+=abs($dirs: (nth($lt_posFlow, 1), nth($lt_posFlow, 2)))
+  +pos($dirs, absolute)
 
-=rel($dirs: (nth($lt_absFlow, 1), nth($lt_absFlow, 2)))
-  +__pos($dirs, relative)
+=rel($dirs: (nth($lt_posFlow, 1), nth($lt_posFlow, 2)))
+  +pos($dirs, relative)
 
-=fix($dirs: (nth($lt_absFlow, 1), nth($lt_absFlow, 2)))
-  +__pos($dirs, fixed)
+=fix($dirs: (nth($lt_posFlow, 1), nth($lt_posFlow, 2)))
+  +pos($dirs, fixed)
