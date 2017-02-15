@@ -31,7 +31,7 @@ $lt_posFlow: (left top right bottom) !default
     $f: if($f > length($lt_posFlow), $f - length($lt_posFlow), $f)
     $currentDir: nth($lt_posFlow, $f)
     @if not index($unusedDirs, $currentDir)
-      @error 'Direction \'#{$currentDir}\' is already set in \'#{$dirs}\'.'
+      @error 'Position \'#{$param}\' for direction \'#{$currentDir}\' is already set in \'#{$dirs}\'.'
     @if $isUnit
       #{$currentDir}: $param
       top: if($isShorthand, $param, null)
