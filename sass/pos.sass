@@ -40,8 +40,8 @@ $lt_posFlow: (left top right bottom) !default
     @else if $isCenter
       #{$currentDir}: 50%
       top: if($isShorthand, 50%, null)
-      $polarity: 50% * if($f > 2, 1, -1)
-      $offset: if($isShorthand, (-50%, -50%), set-nth($offset, if($f == 2 or $f == 4, 2, 1), $polarity))
+      $polarity: 50% * if($currentDir == right or $currentDir == bottom, 1, -1)
+      $offset: if($isShorthand, (-50%, -50%), set-nth($offset, if($currentDir == top or $currentDir == bottom, 2, 1), $polarity))
       $unusedDirs: __removeFromList($unusedDirs, $currentDir)
       $f: $f + 1
     @else if $isFill
