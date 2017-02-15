@@ -1,38 +1,38 @@
 /*
-  layout-tools | abs
+  layout-tools | pos
   ============================== */
 
 @import helpers/remove-from-list
 
 $lt_absFlow: (left top right bottom) !default
 
-=abs($pos: (left top))
-  $pos: if(type-of($pos) == string or type-of($pos) == number, set-nth((null), 1, $pos), $pos)
-  $posValid: type-of($pos) == list and type-of($lt_absFlow) == list and length($lt_absFlow) == 4
-  @if not $posValid
+=pos($dirs: (left top), $pos: fixed)
+  $dirs: if(type-of($dirs) == string or type-of($dirs) == number, set-nth((null), 1, $dirs), $dirs)
+  $dirsValid: type-of($dirs) == list and type-of($lt_absFlow) == list and length($lt_absFlow) == 4
+  @if not $dirsValid
     @error 'Invalid position \'#{$align}\' or direction settings \'#{$lt_absFlow}\'.'
   $offset: (0, 0)
   $unusedDirs: $lt_absFlow
   $i: 0 // param index
   $f: 1 // flow index
-  position: absolute
-  @while $i < length($pos)
+  position: $pos
+  @while $i < length($dirs)
     $i: $i + 1
-    $param: nth($pos, $i)
-    $next: if($i + 1 <= length($pos), nth($pos, $i + 1), false)
+    $param: nth($dirs, $i)
+    $next: if($i + 1 <= length($dirs), nth($dirs, $i + 1), false)
     $isNextValue: $next and type-of($next) == number
     $isVertical: index((left right), $param) != null
     $isHorizontal: index((top bottom), $param) != null
     $isUnit: type-of($param) == number
     $isFill: $param == fill
     $isCenter: $param == center or $param == middle
-    $isShorthand: length($pos) == 1 and ($isUnit or $isCenter or $isFill)
-    $isFillShorthand: length($pos) == 2 and $isFill and type-of($next) == number
+    $isShorthand: length($dirs) == 1 and ($isUnit or $isCenter or $isFill)
+    $isFillShorthand: length($dirs) == 2 and $isFill and type-of($next) == number
     $f: if($isVertical or $isHorizontal, index($lt_absFlow, $param), $f)
     $f: if($f > length($lt_absFlow), $f - length($lt_absFlow), $f)
     $currentDir: nth($lt_absFlow, $f)
     @if not index($unusedDirs, $currentDir)
-      @error 'Direction \'#{$currentDir}\' is already set in \'#{$pos}\'.'
+      @error 'Direction \'#{$currentDir}\' is already set in \'#{$dirs}\'.'
     @if $isUnit
       #{$currentDir}: $param
       top: if($isShorthand, $param, null)
@@ -65,7 +65,16 @@ $lt_absFlow: (left top right bottom) !default
       $unusedDirs: __removeFromList($unusedDirs, $currentDir)
       $f: $f + 1
       $i: if($isNextValue, $i + 1, $i)
-    @else 
+    @else
       @error 'Invalid position \'#{$param}\', must be left|top|right|bottom|center|middle|fill or a unit.'
   @if $offset != (0, 0)
     transform: translate(#{$offset})
+
+=abs($dirs)
+  +pos($dirs, absolute)
+
+=rel($dirs)
+  +pos($dirs, relative)
+
+=fix($dirs)
+  +pos($dirs, fixed)

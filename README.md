@@ -48,9 +48,9 @@ High polish expressive mixins for CSS layout authors, available as a bundle or s
     +grid(1 2.5, col, 10px, nowrap)
 ```
 
-## abs
+## abs, rel, fix
 
-- expressive wrapper over absolute positioning
+- expressive wrapper over positioning
 - keywords `center|middle` with automatic transform offset fix
 - keyword `fill` that accepts distance off screen edges
 - shorthands (`center`, `25px`, `fill`, `fill 10px`)
@@ -61,10 +61,10 @@ High polish expressive mixins for CSS layout authors, available as a bundle or s
 
 ```Sass
 +abs(50%)
-+abs(fill 15px)
++fix(fill 15px)
 +abs(right center)
-+abs(right 20px fill)
-+abs(center bottom 5px)
++rel(right 20px fill)
++fix(center bottom 5px)
 +abs(right 30% top 20px bottom)
 ```
 
