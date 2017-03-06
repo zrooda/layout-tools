@@ -20,7 +20,5 @@
   justify-content: if($dir == 'row', $alignX, $alignY)
   align-items: if($dir == 'row', $alignY, $alignX)
   @if $spacing > 0
-    > *:nth-child(n)
+    > *:not(:#{if($alignX == right, first, last)}-child)
       margin-#{if($dir == row, right, bottom)}: $spacing
-    > *:#{if($alignX == right, first, last)}-child
-      margin-#{if($dir == row, right, bottom)}: 0
