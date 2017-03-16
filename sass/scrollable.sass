@@ -2,7 +2,7 @@
   layout-tools | scrollable
   ============================== */
 
-=scrollable($dir: x)
-  overflow#{if($dir == auto, '', $x)}: auto
+=scrollable($dir: auto)
+  overflow#{if($dir == x or $dir == y, -#{$dir}, '')}: auto
   will-change: scroll-position
   -webkit-overflow-scrolling: touch
