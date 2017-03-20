@@ -19,10 +19,10 @@ $lt_posFlow: (left top right bottom) !default
     $i: $i + 1
     $param: nth($dirs, $i)
     $next: if($i + 1 <= length($dirs), nth($dirs, $i + 1), false)
-    $isNextValue: $next and type-of($next) == number
+    $isNextValue: $next and (type-of($next) == number or str-index($next, 'calc('))
     $isVertical: index((left right), $param) != null
     $isHorizontal: index((top bottom), $param) != null
-    $isUnit: type-of($param) == number
+    $isUnit: type-of($param) == number or str-index($param, 'calc(')
     $isFill: $param == fill
     $isCenter: $param == center or $param == middle
     $isShorthand: length($dirs) == 1 and ($isUnit or $isCenter or $isFill)
